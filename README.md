@@ -2,6 +2,16 @@
 
 A full-stack application for analyzing e-commerce transaction data with CSV file upload capabilities and real-time analysis.
 
+## 🎯 My Approach to This Challenge
+
+For this challenge, I adopted an architecture with distinct backend and frontend layers, utilizing FastAPI for robust data processing and validation, while implementing Streamlit for an intuitive user interface. The application follows a simple two-endpoint design where users first upload CSV transaction data, then query summary statistics for specific users. I chose to use a global variable to store the uploaded data for simplicity.
+
+The upload endpoint handles CSV file ingestion with comprehensive error handling. I implemented several validation layers starting with file extension checking to ensure only CSV files are accepted. The endpoint reads the uploaded file content, handles encoding issues by explicitly decoding as UTF-8, and uses pandas to parse the CSV data. I wrapped the entire process in try-catch blocks to handle various failure scenarios like empty files, encoding errors, or malformed CSV structures, returning appropriate HTTP status codes and error messages for each case.
+
+The summary endpoint provides transaction analytics for individual users with optional date range filtering. I designed it to accept a user ID as a path parameter and optional start and end dates as query parameters. The endpoint first validates that data has been uploaded, then checks for required columns in the dataset. For date filtering, I convert timestamp strings to datetime objects using pandas, which provides robust date parsing capabilities. The business logic calculates key statistics including maximum, minimum, and mean transaction amounts, plus transaction count
+
+Throughout the application, I implemented programming practices by validating inputs at multiple levels and providing specific error messages. For example, I check for empty datasets, missing required columns and invalid date formats, returning 400-level status codes for client errors and 404 when no data matches the query criteria. This approach helps with debugging and provides clear feedback to API consumers. The testing strategy adopts a test-driven mindset with comprehensive coverage for all scenarios, particular emphasis on edge case testing for boundary conditions and performance considerations including benchmarks.
+
 ## 🏗️ Architecture Overview
 
 This project consists of three main components:
@@ -109,9 +119,8 @@ The web interface will be available at `http://localhost:8501`
 ### Step 2: Configure Analysis
 
 1. Enter the User ID you want to analyze
-2. Select analysis type (Summary Statistics, Detailed Analysis, Trends Over Time)
-3. Optionally set date range filters
-4. Click "Run Analysis"
+2. Optionally set date range filters
+3. Click "Run Analysis"
 
 ### Step 3: View Results
 
@@ -182,47 +191,5 @@ pytest test.py -v
 3. **Error Handling Tests**: Invalid inputs, missing data, corrupted files
 4. **Performance Tests**: Large file handling, response time validation
 5. **Edge Case Tests**: Boundary conditions, unusual inputs
-
-## 🎯 My Approach to This Challenge
-
-### 1. **Architecture Decision**
-
-I chose a **separation of concerns** approach with distinct backend and frontend layers:
-
-- **FastAPI backend**: Handles data processing, validation, and business logic
-- **Streamlit frontend**: Provides an intuitive user interface
-- **In-memory storage**: Simple global variable for data persistence (alternative use SQL)
-
-### 2. **Data Processing Strategy**
-
-- **Pandas**: Leveraged pandas for efficient data manipulation and statistical calculations
-- **Streaming processing**: Used StringIO for memory-efficient CSV processing
-- **Type safety**: Explicit type conversion for numerical calculations
-
-### 3. **Error Handling Philosophy**
-
-- **Fail fast**: Immediate validation at upload time
-- **Descriptive errors**: Clear, actionable error messages for users
-- **Graceful degradation**: System continues to function even with edge cases
-
-### 4. **User Experience Focus**
-
-- **Progressive disclosure**: Show upload section first, then analysis options
-- **Real-time feedback**: Immediate file validation and preview
-- **Visual hierarchy**: Clear section separation and status indicators
-
-### 5. **Testing Strategy**
-
-- **Test-driven mindset**: Comprehensive test coverage for all scenarios
-- **Edge case emphasis**: Extensive testing of boundary conditions
-- **Performance consideration**: Included performance benchmarks
-
-### Key Design Decisions:
-
-1. **Global variable for data storage**: Suitable for demo purposes, but in production would use database
-2. **Synchronous processing**: For simplicity, though async processing could be added for large files
-3. **JSON responses**: Standard REST API practice for easy frontend integration
-4. **Date filtering**: Optional feature that adds flexibility without complexity
-5. **Comprehensive validation**: Multiple layers of validation ensure data integrity
 
 **Built with:** FastAPI, Streamlit, Pandas, and Python
