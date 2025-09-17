@@ -1,6 +1,6 @@
-# E-commerce Transaction Analyzer
+# E-commerce Transaction
 
-A full-stack application for analyzing e-commerce transaction data with CSV file upload capabilities and real-time statistical analysis.
+A full-stack application for analyzing e-commerce transaction data with CSV file upload capabilities and real-time analysis.
 
 ## 🏗️ Architecture Overview
 
@@ -25,7 +25,6 @@ This project consists of three main components:
 - **Drag & Drop Upload**: Intuitive file upload with preview
 - **Data Validation**: Real-time validation and file information display
 - **Interactive Analysis**: Configure analysis parameters with date range selection
-- **Results Visualization**: Clean display of analysis results
 - **Responsive Design**: Modern UI with custom styling
 
 ### Key Metrics Provided
